@@ -1,0 +1,138 @@
+<div class="products-page">
+  <div class="page-container">
+    <!-- Sidebar Filters -->
+    <aside class="sidebar">
+      <div class="filter-section">
+        <h3>🔍 Search</h3>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search products..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <div class="filter-section">
+        <h3>🎚 Price Range</h3>
+        <div class="price-range-slider">
+          <input type="range" [min]="priceRangeMin" [max]="priceRangeMax" [(ngModel)]="minPrice" (input)="applyFilters()" />
+          <input type="range" [min]="priceRangeMin" [max]="priceRangeMax" [(ngModel)]="maxPrice" (input)="applyFilters()" />
+        </div>
+        <div class="range-labels">
+          <span>Min: ₹{{ minPrice }}</span>
+          <span>Max: ₹{{ maxPrice }}</span>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>📂 Category</h3>
+        <button
+          class="category-btn"
+          [class.active]="selectedCategory === ''"
+          (click)="clearFilters()"
+        >
+          All Categories
+        </button>
+        <button
+          *ngFor="let cat of categories"
+          class="category-btn"
+          [class.active]="selectedCategory === cat"
+          (click)="filterByCategory(cat)"
+        >
+          {{ cat }}
+        </button>
+      </div>
+
+      <div class="filter-section">
+        <h3>📊 Sort By</h3>
+        <select [(ngModel)]="sortBy" (change)="onSortChange()" class="sort-select">
+          <option value="popularity">Most Popular</option>
+          <option value="newest">Newest</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Highest Rated</option>
+          <option value="discount">Biggest Discount</option>
+        </select>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <div class="content-header">
+        <h2>{{ selectedCategory || 'All Products' }}</h2>
+        <p>{{ filteredProducts.length }} products found</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <p>⏳ Loading products...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && filteredProducts.length === 0" class="empty-state">
+        <p>😔 No products found matching your criteria</p>
+        <button (click)="clearFilters()" class="btn-clear">Clear Filters</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div *ngIf="!loading && filteredProducts.length > 0" class="products-grid">
+        <div *ngFor="let product of filteredProducts" class="product-card" (click)="viewProductDetails(product)">
+          <!-- Discount Badge -->
+          <div *ngIf="getDiscount(product) > 0" class="discount-badge">
+            -{{ getDiscount(product) }}%
+          </div>
+
+          <!-- Product Image -->
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+          </div>
+
+          <!-- Category Badge -->
+          <div class="category-badge">{{ product.category }}</div>
+
+          <!-- Product Info -->
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <p class="product-description">{{ product.description | slice: 0: 80 }}...</p>
+
+            <!-- Rating -->
+            <div class="rating-section" *ngIf="product.rating">
+              <span class="stars">⭐ {{ product.rating }}</span>
+              <span class="review-count">({{ product.reviewCount }} reviews)</span>
+            </div>
+
+            <!-- Seller Info -->
+            <div class="seller-info">
+              {{ product.seller || 'Official Store' }}
+            </div>
+
+            <!-- Price Section -->
+            <div class="price-section">
+              <span class="current-price">₹{{ product.price.toLocaleString('en-IN') }}</span>
+              <span *ngIf="product.originalPrice" class="original-price">
+                ₹{{ product.originalPrice.toLocaleString('en-IN') }}
+              </span>
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="delivery-info">
+              <span>🚚 {{ product.specifications?.deliveryTime || '2-3 days' }}</span>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button
+              (click)="addToCart(product, $event)"
+              [disabled]="!product.stock || product.stock <= 0"
+              class="btn-add-cart"
+            >
+              <span *ngIf="product.stock && product.stock > 0">🛒 Add to Cart</span>
+              <span *ngIf="!product.stock || product.stock <= 0">Out of Stock</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

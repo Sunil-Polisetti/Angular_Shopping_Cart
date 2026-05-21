@@ -8,5 +8,9 @@ if (environment.production) {
   enableProdMode();
 }
 
+
+// Ensure auth state does not persist across browser restarts
+sessionStorage.removeItem('currentUser');
+sessionStorage.removeItem('token');
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

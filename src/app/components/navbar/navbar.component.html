@@ -1,0 +1,72 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a (click)="navigateToHome()" class="brand-logo">🛒 ShopHub</a>
+    </div>
+    
+
+    <div class="navbar-menu">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        Home
+      </a>
+      
+      <a (click)="navigateToCart()" class="nav-link cart-link">
+        <span class="cart-icon">🛒</span>
+        Cart
+        <span *ngIf="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
+      </a>
+
+      <div *ngIf="!isLoggedIn" class="auth-links">
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+        <a routerLink="/register" routerLinkActive="active" class="nav-link register-btn">Register</a>
+      </div>
+
+      <div *ngIf="isLoggedIn" class="user-section">
+        <div class="user-menu-toggle" (click)="toggleUserMenu()">
+          <span class="user-avatar">👤</span>
+          <span class="user-name">{{ currentUser?.name || currentUser?.email }}</span>
+          <span class="dropdown-arrow">▼</span>
+        </div>
+
+        <div *ngIf="showUserMenu" class="user-dropdown-menu">
+          <div class="user-details-header">
+            <div class="user-avatar-large">👤</div>
+            <div class="user-info-section">
+              <div class="user-fullname">{{ currentUser?.name || 'User' }}</div>
+              <div class="user-email">{{ currentUser?.email }}</div>
+            </div>
+          </div>
+
+          <div class="menu-divider"></div>
+
+          <div class="menu-items">
+            <a class="menu-item" routerLink="/cart">
+              <span class="menu-icon">🛒</span>
+              <span>My Cart ({{ cartCount }})</span>
+            </a>
+            <a class="menu-item" routerLink="/order-tracking">
+              <span class="menu-icon">📦</span>
+              <span>My Orders</span>
+            </a>
+            <a class="menu-item" routerLink="/">
+              <span class="menu-icon">❤️</span>
+              <span>Wishlist</span>
+            </a>
+            <a class="menu-item" routerLink="/">
+              <span class="menu-icon">⚙️</span>
+              <span>Account Settings</span>
+            </a>
+          </div>
+
+          <div class="menu-divider"></div>
+
+          <button (click)="logout()" class="btn-logout-menu">
+            <span class="menu-icon">🚪</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<hr class="navbar-divider" />

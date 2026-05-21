@@ -1,0 +1,46 @@
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+const app = express();
+
+/* ================= MIDDLEWARE ================= */
+app.use(cors({
+  origin: 'http://localhost:4200',
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+/* ================= DATABASE ================= */
+mongoose.connect('mongodb://127.0.0.1:27017/shoppingcart')
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB error:', err.message));
+
+/* ================= ROUTE IMPORTS ================= */
+const productRoutes = require('./Product API Routes.js');
+const orderRoutes = require('./Order.js');
+const authRoutes = require('./User Authentication.js');
+
+/* ================= API ROUTES ================= */
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/auth', authRoutes);
+
+/* ================= ROOT ================= */
+app.get('/', (req, res) => {
+  res.json({ message: 'Shopping Cart API running ✅' });
+});
+
+/* ================= 404 HANDLER ================= */
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+/* ================= SERVER ================= */
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});

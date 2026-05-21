@@ -1,0 +1,160 @@
+<div class="order-confirmation-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Processing your order...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <div class="error-icon">❌</div>
+    <h2>{{ error }}</h2>
+    <button (click)="continueShopping()" class="btn btn-primary">Continue Shopping</button>
+  </div>
+
+  <!-- Success State -->
+  <div *ngIf="order && !loading && !error" class="success-state">
+    <!-- Success Header -->
+    <div class="success-header">
+      <div class="success-icon">✓</div>
+      <h1>Order Confirmed!</h1>
+      <p>Thank you for your order. We're processing it now.</p>
+    </div>
+
+    <!-- Order Number and Date -->
+    <div class="order-number-card">
+      <div class="order-number">
+        <label>Order Number</label>
+        <h2>{{ order.orderNumber }}</h2>
+      </div>
+      <div class="order-date">
+        <label>Order Date</label>
+        <p>{{ order.createdAt | date: 'MMM d, yyyy h:mm a' }}</p>
+      </div>
+      <div class="estimated-delivery" *ngIf="order.estimatedDelivery">
+        <label>Estimated Delivery</label>
+        <p>{{ order.estimatedDelivery | date: 'MMM d, yyyy' }}</p>
+      </div>
+    </div>
+
+    <!-- Order Timeline/Status -->
+    <div class="order-status-section">
+      <h3>Order Status</h3>
+      <div class="status-timeline">
+        <div class="status-item" [class.active]="order.orderStatus">
+          <div class="status-dot"></div>
+          <div class="status-label">Order Confirmed</div>
+        </div>
+        <div class="status-item" [class.active]="order.orderStatus === 'processing' || order.orderStatus === 'shipped' || order.orderStatus === 'delivered'">
+          <div class="status-dot"></div>
+          <div class="status-label">Processing</div>
+        </div>
+        <div class="status-item" [class.active]="order.orderStatus === 'shipped' || order.orderStatus === 'delivered'">
+          <div class="status-dot"></div>
+          <div class="status-label">Shipped</div>
+        </div>
+        <div class="status-item" [class.active]="order.orderStatus === 'delivered'">
+          <div class="status-dot"></div>
+          <div class="status-label">Delivered</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Address -->
+    <div class="info-card">
+      <h3>📍 Delivery Address</h3>
+      <div class="address-content">
+        <p><strong>{{ order.deliveryAddress.firstName }} {{ order.deliveryAddress.lastName }}</strong></p>
+        <p>{{ order.deliveryAddress.address }}</p>
+        <p>{{ order.deliveryAddress.city }}, {{ order.deliveryAddress.state }} {{ order.deliveryAddress.pincode }}</p>
+        <p>Phone: {{ order.deliveryAddress.phone }}</p>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="info-card">
+      <h3>📦 Order Items</h3>
+      <div class="items-table">
+        <div class="items-header">
+          <span class="col-name">Product</span>
+          <span class="col-qty">Qty</span>
+          <span class="col-price">Price</span>
+          <span class="col-total">Total</span>
+        </div>
+        <div *ngFor="let item of order.items" class="items-row">
+          <span class="col-name">{{ item.productName }}</span>
+          <span class="col-qty">{{ item.quantity }}</span>
+          <span class="col-price">₹{{ item.price.toFixed(2) }}</span>
+          <span class="col-total">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price Breakdown -->
+    <div class="info-card">
+      <h3>💰 Price Breakdown</h3>
+      <div class="price-breakdown">
+        <div class="breakdown-row">
+          <span>Subtotal</span>
+          <span>₹{{ order.priceBreakdown.subtotal.toFixed(2) }}</span>
+        </div>
+        <div class="breakdown-row" *ngIf="order.priceBreakdown.discount > 0">
+          <span>Discount</span>
+          <span class="discount">-₹{{ order.priceBreakdown.discount.toFixed(2) }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Tax (18%)</span>
+          <span>₹{{ order.priceBreakdown.tax.toFixed(2) }}</span>
+        </div>
+        <div class="breakdown-row total">
+          <span>Total Amount</span>
+          <span>₹{{ order.priceBreakdown.totalAmount.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="info-card">
+      <h3>💳 Payment Information</h3>
+      <div class="payment-info">
+        <div class="payment-row">
+          <span>Payment Method</span>
+          <span>{{ order.paymentMethod | titlecase }}</span>
+        </div>
+        <div class="payment-row">
+          <span>Payment Status</span>
+          <span [class.status-completed]="order.paymentDetails.paymentStatus === 'completed'">
+            {{ order.paymentDetails.paymentStatus | titlecase }}
+          </span>
+        </div>
+        <div class="payment-row" *ngIf="order.paymentDetails.razorpayPaymentId">
+          <span>Payment ID</span>
+          <span>{{ order.paymentDetails.razorpayPaymentId }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button (click)="trackOrder()" class="btn btn-primary">
+        📍 Track Order
+      </button>
+      <button (click)="downloadInvoice()" class="btn btn-secondary">
+        📄 Download Invoice
+      </button>
+      <button (click)="continueShopping()" class="btn btn-outline">
+        🛍️ Continue Shopping
+      </button>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <h3>Need Help?</h3>
+      <div class="help-content">
+        <p>✉️ We've sent a confirmation email to <strong>{{ order.userEmail }}</strong></p>
+        <p>📞 Contact our customer support team if you have any questions</p>
+        <p>⏱️ Your order will be delivered within 3-5 business days</p>
+      </div>
+    </div>
+  </div>
+</div>

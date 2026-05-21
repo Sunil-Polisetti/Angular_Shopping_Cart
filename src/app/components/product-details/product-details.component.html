@@ -1,0 +1,140 @@
+<div class="product-details-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-spinner">
+    <p>Loading product details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="goBack()" class="btn btn-primary">Go Back</button>
+  </div>
+
+  <!-- Product Details -->
+  <div *ngIf="product && !loading && !error" class="product-details">
+    <!-- Header -->
+    <div class="details-header">
+      <button (click)="goBack()" class="btn-back">
+        <span>← Back</span>
+      </button>
+      <h1>Product Details</h1>
+      <div></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="details-main">
+      <!-- Image Gallery -->
+      <div class="image-section">
+        <div class="main-image">
+          <img [src]="selectedImage" [alt]="product!.name || 'Product'" />
+        </div>
+        <div class="thumbnail-gallery" *ngIf="product && product.images && product.images.length > 0">
+          <img 
+            *ngFor="let img of product.images" 
+            [src]="img" 
+            [alt]="product!.name || 'Product'"
+            (click)="selectImage(img)"
+            [class.active]="selectedImage === img"
+            class="thumbnail"
+          />
+        </div>
+      </div>
+
+      <!-- Product Information -->
+      <div class="info-section">
+        <!-- Product Title -->
+        <div class="product-title-section">
+          <h2>{{ product!.name }}</h2>
+          <p class="category">{{ product!.category }}</p>
+        </div>
+
+        <!-- Rating -->
+        <div class="rating-section" *ngIf="product!.rating">
+          <div class="stars">
+            <span class="star-rating">★★★★★</span>
+            <span class="rating-text">{{ product!.rating }}/5 ({{ product!.reviewCount || 0 }} reviews)</span>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="price-section">
+          <div class="current-price">₹{{ (product!.price || 0) | number:'1.0-0' }}</div>
+          <div class="original-price" *ngIf="product!.originalPrice">
+            <span>₹{{ (product!.originalPrice || 0) | number:'1.0-0' }}</span>
+            <span class="discount-badge" *ngIf="product!.discount">-{{ product!.discount }}%</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h3>Description</h3>
+          <p>{{ product!.description }}</p>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="stock-section">
+          <p>
+            <strong>Availability:</strong>
+            <span [class.in-stock]="product!.stock && product!.stock > 0" 
+                  [class.out-of-stock]="!product!.stock || product!.stock === 0">
+              {{ (product!.stock && product!.stock > 0) ? 'In Stock (' + product!.stock + ')' : 'Out of Stock' }}
+            </span>
+          </p>
+        </div>
+
+        <!-- Seller -->
+        <div class="seller-section" *ngIf="product!.seller">
+          <p><strong>Seller:</strong> {{ product!.seller }}</p>
+        </div>
+
+        <!-- Quantity Selection -->
+        <div class="quantity-section">
+          <label>Quantity:</label>
+          <div class="quantity-control">
+            <button (click)="decreaseQuantity()" class="qty-btn" [disabled]="quantity <= 1">−</button>
+            <input type="number" [(ngModel)]="quantity" class="qty-input" readonly />
+            <button (click)="increaseQuantity()" class="qty-btn" [disabled]="quantity >= (product!.stock || 10)">+</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button 
+            (click)="addToCart()" 
+            class="btn btn-primary btn-add-cart"
+            [disabled]="!product!.stock || product!.stock === 0"
+          >
+            <span *ngIf="!addedToCart">🛒 Add to Cart</span>
+            <span *ngIf="addedToCart">✓ Added to Cart!</span>
+          </button>
+          <button (click)="goToCart()" class="btn btn-secondary">View Cart</button>
+        </div>
+
+        <!-- Shipping & Returns -->
+        <div class="shipping-section">
+          <div class="shipping-item">
+            <span class="icon">📦</span>
+            <div>
+              <h4>Free Shipping</h4>
+              <p>On orders above ₹500</p>
+            </div>
+          </div>
+          <div class="shipping-item">
+            <span class="icon">↩️</span>
+            <div>
+              <h4>Easy Returns</h4>
+              <p>30 days return policy</p>
+            </div>
+          </div>
+          <div class="shipping-item">
+            <span class="icon">✓</span>
+            <div>
+              <h4>100% Authentic</h4>
+              <p>Genuine products only</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
