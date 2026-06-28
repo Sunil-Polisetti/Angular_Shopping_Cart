@@ -57,7 +57,13 @@ export class OrderTrackingComponent implements OnInit {
 
     try {
       const parsed = JSON.parse(stored);
-      return Array.isArray(parsed) ? parsed : [];
+      if (!Array.isArray(parsed)) return [];
+
+      const currentUserId = this.user?._id;
+      if (!currentUserId) return [];
+
+      // Filter local orders to only show those belonging to the logged-in user
+      return parsed.filter(order => order.user === currentUserId || order.userId === currentUserId);
     } catch {
       return [];
     }
