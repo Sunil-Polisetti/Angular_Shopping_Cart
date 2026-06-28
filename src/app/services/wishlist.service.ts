@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product.model';
 import { ToastService } from './toast.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,26 @@ export class WishlistService {
   private wishlistCountSubject = new BehaviorSubject<number>(0);
   wishlistCount$ = this.wishlistCountSubject.asObservable();
 
-  constructor(private toastService: ToastService) {
-    this.loadWishlist();
+  constructor(
+    private toastService: ToastService,
+    private authService: AuthService
+  ) {
+    // Reactively reload wishlist when the logged-in user changes
+    this.authService.currentUser$.subscribe(() => {
+      this.loadWishlist();
+    });
+  }
+
+  private getWishlistKey(): string {
+    const user = this.authService.getCurrentUser();
+    const userId = user ? (user._id || user.id) : 'guest';
+    return `${this.WISHLIST_KEY}_${userId}`;
   }
 
   private loadWishlist(): void {
     try {
-      const saved = localStorage.getItem(this.WISHLIST_KEY);
+      const key = this.getWishlistKey();
+      const saved = localStorage.getItem(key);
       this.wishlist = saved ? JSON.parse(saved) : [];
       this.wishlistCountSubject.next(this.wishlist.length);
     } catch {
@@ -28,7 +42,8 @@ export class WishlistService {
   }
 
   private saveWishlist(): void {
-    localStorage.setItem(this.WISHLIST_KEY, JSON.stringify(this.wishlist));
+    const key = this.getWishlistKey();
+    localStorage.setItem(key, JSON.stringify(this.wishlist));
     this.wishlistCountSubject.next(this.wishlist.length);
   }
 
