@@ -81,7 +81,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   /* ================= INIT ================= */
 
   private initializeCheckout(): void {
-    const userData = localStorage.getItem('currentUser');
+    const userData = sessionStorage.getItem('currentUser');
 
     if (!userData) {
       this.router.navigate(['/login']);
