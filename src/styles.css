@@ -1,57 +1,54 @@
-/* Global Styles & Premium Design System */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Global Styles - Premium Minimalist Slate & Royal Blue (Vercel/Linear Style) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Color Palette - Modern Dark Theme */
-  --bg-main: #09090e;
-  --bg-surface: rgba(17, 17, 27, 0.75);
-  --bg-surface-hover: rgba(30, 30, 46, 0.85);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-color-hover: rgba(255, 255, 255, 0.15);
+  /* Color Palette - Sophisticated Dark Slate */
+  --bg-main: #09090b;
+  --bg-surface: #18181b;
+  --bg-surface-hover: #202024;
+  --border-color: #27272a;
+  --border-color-hover: #3f3f46;
   
-  /* Accents */
-  --primary: #6366f1; /* Indigo */
-  --primary-glow: rgba(99, 102, 241, 0.15);
-  --secondary: #a855f7; /* Purple */
-  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  --accent-gradient-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+  /* Brand Accents - Royal Blue & Sky */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-glow: rgba(37, 99, 235, 0.12);
+  --secondary: #3b82f6;
+  --accent-gradient: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  --accent-gradient-hover: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
   
   /* Statuses */
   --success: #10b981;
-  --success-glow: rgba(16, 185, 129, 0.15);
+  --success-glow: rgba(16, 185, 129, 0.1);
   --error: #ef4444;
-  --error-glow: rgba(239, 68, 68, 0.15);
+  --error-glow: rgba(239, 68, 68, 0.1);
   --warning: #f59e0b;
-  --warning-glow: rgba(245, 158, 11, 0.15);
-  --info: #3b82f6;
-  --info-glow: rgba(59, 130, 246, 0.15);
+  --warning-glow: rgba(245, 158, 11, 0.1);
+  --info: #06b6d4;
 
-  /* Text Colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  /* Typography Colors */
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
   
-  /* Layout */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  --glass-blur: blur(16px);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  /* Layout Controls (Slightly sharper, professional radii) */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
-  background: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 45%), 
-              radial-gradient(at 50% 0%, rgba(168, 85, 247, 0.1) 0, transparent 40%), 
-              var(--bg-main);
-  background-attachment: fixed;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -60,16 +57,15 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-primary);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -77,19 +73,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: var(--border-color);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: var(--text-muted);
 }
 
 /* Global Container */
 .container {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 40px 20px;
 }
 
 a {
@@ -98,10 +94,9 @@ a {
   transition: var(--transition-smooth);
 }
 
-/* Glassmorphism Card Utility */
+/* Clean Card Utility */
 .glass-card {
   background: var(--bg-surface);
-  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--glass-shadow);
@@ -110,59 +105,55 @@ a {
 
 .glass-card:hover {
   border-color: var(--border-color-hover);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
 }
 
-/* Premium Button Styling */
+/* Clean Button Styling (Flat, high-end look) */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
+  font-weight: 550;
   font-size: 14px;
   cursor: pointer;
   transition: var(--transition-smooth);
-  border: none;
+  border: 1px solid transparent;
   outline: none;
 }
 
 .btn-primary {
-  background: var(--accent-gradient);
-  color: white;
-  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.4);
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary-hover);
 }
 
 .btn-primary:hover {
-  background: var(--accent-gradient-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.6);
+  background: var(--primary-hover);
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
   border-color: var(--border-color-hover);
-  transform: translateY(-2px);
 }
 
 /* Inputs and Forms */
 .form-control {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: var(--text-primary);
   font-size: 14px;
   outline: none;
@@ -172,16 +163,15 @@ a {
 
 .form-control:focus {
   border-color: var(--primary);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

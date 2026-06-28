@@ -133,9 +133,9 @@
 }
 
 .category-btn.active {
-  background: rgba(99, 102, 241, 0.15);
+  background: rgba(37, 99, 235, 0.08);
   color: var(--text-primary);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(37, 99, 235, 0.2);
 }
 
 /* Sort Select */
@@ -176,10 +176,9 @@
 }
 
 .content-header h2 {
-  font-size: 28px;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 24px;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .content-header p {
@@ -244,9 +243,9 @@
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: var(--primary);
-  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .discount-badge {
@@ -289,8 +288,8 @@
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.2);
   color: var(--text-primary);
   padding: 4px 10px;
   border-radius: 20px;
@@ -384,11 +383,10 @@
   margin-bottom: 20px;
 }
 
-/* Add to Cart Button */
 .btn-add-cart {
   width: 100%;
   padding: 12px;
-  background: var(--accent-gradient);
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -396,14 +394,12 @@
   font-size: 14px;
   cursor: pointer;
   transition: var(--transition-smooth);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
   margin-top: auto;
 }
 
 .btn-add-cart:hover:not(:disabled) {
-  background: var(--accent-gradient-hover);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
-  transform: translateY(-2px);
+  background: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-add-cart:disabled {
