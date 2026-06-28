@@ -6,12 +6,7 @@ const cors = require("cors");
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
-app.use(
-  cors({
-    origin: "https://angular-shopping-cart-taupe.vercel.app",
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,9 +17,9 @@ app.use((req, res, next) => {
   next();
 });
 
-/* ================= DATABASE ================= */
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/shoppingcart";
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log("Loaded ENV:", MONGODB_URI);
+
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("✅ MongoDB connected"))
@@ -34,6 +29,7 @@ mongoose
 const productRoutes = require("./Product API Routes.js");
 const orderRoutes = require("./Order.js");
 const authRoutes = require("./User Authentication.js");
+const { env } = require("node:process");
 
 /* ================= API ROUTES ================= */
 app.use("/api/products", productRoutes);
