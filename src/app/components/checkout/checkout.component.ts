@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { OrderService } from '../../services/order.service';
+import { ToastService } from '../../services/toast.service';
 import { Observable, Subject } from 'rxjs';
 import { of } from 'rxjs';
 
@@ -62,7 +63,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authService: AuthService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   /* ================= LIFECYCLE ================= */
@@ -136,12 +138,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (!this.isFormValid()) {
       this.showError = true;
       this.errorMessage = 'Please fill all required fields';
+      this.toastService.error(this.errorMessage);
       return;
     }
 
     this.isProcessing = true;
-
-    const orderNumber = 'ORD-' + Date.now();
 
     const deliveryAddress = {
       firstName: this.formData.firstName,
@@ -161,44 +162,54 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     };
 
     const items = this.cartItems.map(item => ({
-      _id: item._id,
+      product: item._id, // Map _id to product for MongoDB ref
       productName: item.name,
       quantity: item.quantity,
       price: item.price,
       discount: item.discount
     }));
 
-    const order = {
-      _id: orderNumber,
-      orderNumber,
+    const orderData: any = {
       userId: this.user?._id,
-      orderStatus: 'pending',
       paymentMethod: 'Cash on Delivery',
-      paymentDetails: { paymentStatus: 'pending' },
-      createdAt: new Date(),
       deliveryAddress,
-      address: this.formData,
       priceBreakdown,
       items
     };
 
-    // ✅ SAVE ORDER LOCALLY (KEY FIX)
-    localStorage.setItem('lastOrder', JSON.stringify(order));
+    this.orderService.placeOrder(orderData).subscribe({
+      next: (response: any) => {
+        this.isProcessing = false;
+        if (response.success && response.order) {
+          const savedOrder = response.order;
+          localStorage.setItem('lastOrder', JSON.stringify(savedOrder));
+          localStorage.setItem('lastOrderId', savedOrder._id);
 
-    this.cartService.clearCart();
+          this.cartService.clearCart();
+          this.orderPlaced = true;
+          this.orderNumber = savedOrder.orderNumber;
 
-    setTimeout(() => {
-      this.isProcessing = false;
-      this.orderPlaced = true;
-      this.orderNumber = order.orderNumber;
+          // Also save order history locally
+          const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+          existingOrders.unshift(savedOrder);
+          localStorage.setItem('orders', JSON.stringify(existingOrders));
 
-      this.router.navigate(['/order-confirmation']);
-    }, 1000);
-
-    // Also save order history for "My Orders"
-    const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-    existingOrders.push(order);
-    localStorage.setItem('orders', JSON.stringify(existingOrders));
+          this.toastService.success('Order placed successfully!');
+          this.router.navigate(['/order-confirmation']);
+        } else {
+          this.showError = true;
+          this.errorMessage = 'Failed to place order';
+          this.toastService.error(this.errorMessage);
+        }
+      },
+      error: (error: any) => {
+        console.error('Order placement failed:', error);
+        this.isProcessing = false;
+        this.showError = true;
+        this.errorMessage = error.error?.message || 'Failed to place order. Please try again.';
+        this.toastService.error(this.errorMessage);
+      }
+    });
   }
 
   /* ================= VALIDATION ================= */

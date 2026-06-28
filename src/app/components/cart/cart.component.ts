@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import { ToastService } from '../../services/toast.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -21,7 +22,8 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -34,8 +36,10 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(index: number): void {
+    const item = this.cartItems[index];
     this.cartService.removeItem(index);
     this.loadCart();
+    this.toastService.info(`${item?.name || 'Item'} removed from cart`);
   }
 
   calculatePrices(): void {
@@ -68,13 +72,13 @@ export class CartComponent implements OnInit {
 
   proceedToCheckout(): void {
     if (!this.isUserLoggedIn()) {
-      alert('Please login to proceed with checkout');
+      this.toastService.error('Please login to proceed with checkout');
       this.router.navigate(['/login']);
       return;
     }
 
     if (this.cartItems.length === 0) {
-      alert('Your cart is empty');
+      this.toastService.error('Your cart is empty');
       return;
     }
 

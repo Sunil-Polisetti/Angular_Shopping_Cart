@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.currentUser = null;
     this.isLoggedIn = false;
     this.showUserMenu = false;
+    this.toastService.info('Logged out successfully');
     this.router.navigate(['/']);
   }
 

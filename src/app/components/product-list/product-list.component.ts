@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { ToastService } from '../../services/toast.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -26,7 +27,8 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -156,7 +158,7 @@ export class ProductListComponent implements OnInit {
       event.stopPropagation();
     }
     this.cartService.addToCart(product);
-    alert(`${product.name} added to cart!`);
+    this.toastService.success(`${product.name} added to cart!`);
   }
 }
 

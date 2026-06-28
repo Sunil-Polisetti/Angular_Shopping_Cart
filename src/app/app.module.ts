@@ -15,6 +15,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
@@ -31,7 +32,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     LoadingComponent,
     ProductDetailsComponent,
     OrderConfirmationComponent,
-    OrderTrackingComponent
+    OrderTrackingComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,

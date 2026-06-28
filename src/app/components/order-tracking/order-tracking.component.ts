@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-order-tracking',
@@ -30,7 +31,8 @@ export class OrderTrackingComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private authService: AuthService,
-    public router: Router
+    public router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -148,13 +150,13 @@ export class OrderTrackingComponent implements OnInit {
 
   submitCancel(): void {
     if (!this.cancelReason.trim()) {
-      alert('Please provide a cancellation reason');
+      this.toastService.error('Please provide a cancellation reason');
       return;
     }
 
     this.orderService.cancelOrder(this.selectedOrder._id, this.cancelReason).subscribe(
       (response: any) => {
-        alert('Order cancelled successfully');
+        this.toastService.success('Order cancelled successfully');
         this.selectedOrder = response.order;
         this.showCancelForm = false;
         this.cancelReason = '';
@@ -162,7 +164,7 @@ export class OrderTrackingComponent implements OnInit {
       },
       (error) => {
         console.error('Error cancelling order:', error);
-        alert('Failed to cancel order');
+        this.toastService.error('Failed to cancel order');
       }
     );
   }

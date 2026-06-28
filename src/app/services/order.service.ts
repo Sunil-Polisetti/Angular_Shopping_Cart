@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { CartService } from './cart.service';
 
 export interface Order {
   _id?: string;
@@ -21,17 +22,17 @@ export interface Order {
   providedIn: 'root'
 })
 export class OrderService {
-  clearCart() {
-    throw new Error('Method not implemented.');
-  }
-
   // ✅ COD-only backend API
   private apiUrl = 'http://localhost:3000/api/orders';
 
   private currentOrderSubject = new BehaviorSubject<Order | null>(null);
   currentOrder$ = this.currentOrderSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cartService: CartService) {}
+
+  clearCart(): void {
+    this.cartService.clearCart();
+  }
 
   private getAuthHeaders() {
     const token = sessionStorage.getItem('token');

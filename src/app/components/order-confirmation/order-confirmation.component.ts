@@ -125,10 +125,10 @@ export class OrderConfirmationComponent implements OnInit {
 
           <h3>Delivery Address</h3>
           <p>
-            ${this.order.address.firstName} ${this.order.address.lastName}<br>
-            ${this.order.address.address}<br>
-            ${this.order.address.city}, ${this.order.address.state} - ${this.order.address.pincode}<br>
-            Phone: ${this.order.address.phone}
+            ${this.order.deliveryAddress.firstName} ${this.order.deliveryAddress.lastName}<br>
+            ${this.order.deliveryAddress.address}<br>
+            ${this.order.deliveryAddress.city}, ${this.order.deliveryAddress.state} - ${this.order.deliveryAddress.pincode}<br>
+            Phone: ${this.order.deliveryAddress.phone}
           </p>
 
           <h3>Items</h3>
@@ -161,8 +161,7 @@ export class OrderConfirmationComponent implements OnInit {
   }
 
   trackOrder(): void {
-    alert('Order tracking is not enabled yet');
-    this.router.navigate(['/']);
+    this.router.navigate(['/order-tracking']);
   }
 
   /* ================= CONFIRMATION ================= */
