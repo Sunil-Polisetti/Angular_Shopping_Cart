@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { WishlistService } from '../../services/wishlist.service';
 import { Product } from '../../models/product.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -24,6 +25,7 @@ export class ProductListComponent implements OnInit {
   priceRangeMin: number = 0;
   priceRangeMax: number = 0;
   loading = true;
+  private searchSubscription: Subscription | null = null;
 
   constructor(
     private productService: ProductService,
@@ -35,6 +37,18 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProducts();
+
+    // Subscribe to shared search query from navbar
+    this.searchSubscription = this.productService.searchQuery$.subscribe(query => {
+      this.searchQuery = query;
+      this.applyFilters();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
 
   loadProducts(): void {
@@ -134,10 +148,6 @@ export class ProductListComponent implements OnInit {
     }
 
     this.filteredProducts = filtered;
-  }
-
-  onSearch(): void {
-    this.applyFilters();
   }
 
   onSortChange(): void {

@@ -3,17 +3,6 @@
     <!-- Sidebar Filters -->
     <aside class="sidebar">
       <div class="filter-section">
-        <h3>🔍 Search</h3>
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Search products..."
-          [(ngModel)]="searchQuery"
-          (input)="onSearch()"
-        />
-      </div>
-
-      <div class="filter-section">
         <h3>🎚 Price Range</h3>
         <div class="price-range-slider">
           <input type="range" [min]="priceRangeMin" [max]="priceRangeMax" [(ngModel)]="minPrice" (input)="applyFilters()" />

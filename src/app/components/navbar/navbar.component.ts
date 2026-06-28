@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 
@@ -15,12 +16,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentUser: any;
   cartCount = 0;
   showUserMenu = false;
+  searchQuery = '';
   private currentUserSubscription: any;
   private cartSubscription: Subscription | null = null;
+  private searchSubscription: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
     private cartService: CartService,
+    private productService: ProductService,
     private router: Router,
     private toastService: ToastService
   ) {}
@@ -32,6 +36,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Subscribe to cart updates
     this.cartSubscription = this.cartService.cartCount$.subscribe(count => {
       this.cartCount = count;
+    });
+
+    // Subscribe to search query updates
+    this.searchSubscription = this.productService.searchQuery$.subscribe(query => {
+      this.searchQuery = query;
     });
 
     this.currentUserSubscription = this.authService.currentUser$.subscribe(user => {
@@ -52,6 +61,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();
+    }
+
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+
+  onSearch(): void {
+    this.productService.setSearchQuery(this.searchQuery);
+    if (this.router.url !== '/' && !this.router.url.startsWith('/?')) {
+      this.router.navigate(['/']);
     }
   }
 

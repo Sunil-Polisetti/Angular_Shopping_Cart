@@ -4,6 +4,17 @@
       <a (click)="navigateToHome()" class="brand-logo">🛒 ShopHub</a>
     </div>
     
+    <!-- Search Bar -->
+    <div class="navbar-search">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        class="nav-search-input"
+      />
+    </div>
 
     <div class="navbar-menu">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
