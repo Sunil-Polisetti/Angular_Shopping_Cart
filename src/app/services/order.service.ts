@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { CartService } from './cart.service';
+import { environment } from '../../environments/environment';
 
 export interface Order {
   _id?: string;
@@ -23,7 +24,7 @@ export interface Order {
 })
 export class OrderService {
   // ✅ COD-only backend API
-  private apiUrl = 'http://localhost:3000/api/orders';
+  private apiUrl = `${environment.apiUrl}/orders`;
 
   private currentOrderSubject = new BehaviorSubject<Order | null>(null);
   currentOrder$ = this.currentOrderSubject.asObservable();

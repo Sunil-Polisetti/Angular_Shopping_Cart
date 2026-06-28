@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'http://localhost:3000/api/products';
+  private apiUrl = `${environment.apiUrl}/products`;
   private searchSubject = new BehaviorSubject<string>('');
   searchQuery$ = this.searchSubject.asObservable();
 
