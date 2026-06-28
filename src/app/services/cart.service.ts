@@ -83,6 +83,13 @@ export class CartService {
     }
   }
 
+  updateQuantity(index: number, quantity: number): void {
+    if (index >= 0 && index < this.cart.length) {
+      this.cart[index].quantity = Math.max(1, quantity);
+      this.saveCartToStorage();
+    }
+  }
+
   clearCart(): void {
     this.cart = [];
     this.saveCartToStorage();

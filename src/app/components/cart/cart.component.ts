@@ -42,6 +42,12 @@ export class CartComponent implements OnInit {
     this.toastService.info(`${item?.name || 'Item'} removed from cart`);
   }
 
+  updateQuantity(index: number, quantity: any): void {
+    const qty = Number(quantity) || 1;
+    this.cartService.updateQuantity(index, qty);
+    this.loadCart();
+  }
+
   calculatePrices(): void {
     // Calculate subtotal
     this.subtotal = this.cartItems.reduce(
