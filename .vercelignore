@@ -1,0 +1,9 @@
+backend
+node_modules
+dist
+.git
+.vercel
+.gemini
+tmp
+**/node_modules
+**/dist
