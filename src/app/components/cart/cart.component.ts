@@ -3,15 +3,14 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
-import { Product } from '../../models/product.model';
+// import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-
   cartItems: any[] = [];
   subtotal: number = 0;
   tax: number = 0;
@@ -23,7 +22,7 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private authService: AuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -51,22 +50,20 @@ export class CartComponent implements OnInit {
   calculatePrices(): void {
     // Calculate subtotal
     this.subtotal = this.cartItems.reduce(
-      (sum, item) => sum + (item.price * (item.quantity || 1)),
-      0
+      (sum, item) => sum + item.price * (item.quantity || 1),
+      0,
     );
 
     // Calculate discount based on discount percentage
-    this.discount = this.cartItems.reduce(
-      (sum, item) => {
-        const itemPrice = item.price * (item.quantity || 1);
-        const discountAmount = (itemPrice * (item.discount || 0)) / 100;
-        return sum + discountAmount;
-      },
-      0
-    );
+    this.discount = this.cartItems.reduce((sum, item) => {
+      const itemPrice = item.price * (item.quantity || 1);
+      const discountAmount = (itemPrice * (item.discount || 0)) / 100;
+      return sum + discountAmount;
+    }, 0);
 
     // Calculate tax on (subtotal - discount)
-    this.tax = Math.round(((this.subtotal - this.discount) * this.GST_RATE) * 100) / 100;
+    this.tax =
+      Math.round((this.subtotal - this.discount) * this.GST_RATE * 100) / 100;
 
     // Calculate total
     this.total = this.subtotal - this.discount + this.tax;
@@ -91,4 +88,3 @@ export class CartComponent implements OnInit {
     this.router.navigate(['/checkout']);
   }
 }
-
