@@ -38,11 +38,12 @@ export class AccountSettingsComponent implements OnInit {
       return;
     }
 
-    if (this.newPassword || this.confirmPassword || this.currentPassword) {
-      if (!this.currentPassword) {
-        this.toastService.error('Current password is required to change password');
-        return;
-      }
+    if (!this.currentPassword) {
+      this.toastService.error('Current password is required to save changes');
+      return;
+    }
+
+    if (this.newPassword || this.confirmPassword) {
       if (!this.newPassword) {
         this.toastService.error('New password is required');
         return;
@@ -57,8 +58,10 @@ export class AccountSettingsComponent implements OnInit {
     this.authService.updateProfile(this.name, this.currentPassword, this.newPassword).subscribe({
       next: (response: any) => {
         this.loading = false;
-        // Update local session storage
+        // Update local session storage and behavior subjects
         this.authService.setCurrentUser(response.user);
+        this.name = response.user.name;
+        this.email = response.user.email;
         this.toastService.success('Profile updated successfully!');
         
         // Clear password fields

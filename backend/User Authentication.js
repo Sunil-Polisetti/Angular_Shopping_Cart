@@ -97,9 +97,20 @@ function authenticate(req, res, next) {
 router.put('/update-profile', authenticate, async (req, res) => {
   try {
     const { name, currentPassword, newPassword } = req.body;
+
+    if (!currentPassword) {
+      return res.status(400).json({ message: 'Current password is required to save changes' });
+    }
+
     const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Verify current password
+    const isPasswordValid = await bcryptjs.compare(currentPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid current password' });
     }
 
     if (name) {
@@ -107,13 +118,6 @@ router.put('/update-profile', authenticate, async (req, res) => {
     }
 
     if (newPassword) {
-      if (!currentPassword) {
-        return res.status(400).json({ message: 'Current password is required to set a new password' });
-      }
-      const isPasswordValid = await bcryptjs.compare(currentPassword, user.password);
-      if (!isPasswordValid) {
-        return res.status(400).json({ message: 'Invalid current password' });
-      }
       user.password = newPassword;
     }
 
