@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
+import { WishlistService } from '../../services/wishlist.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -28,7 +29,8 @@ export class ProductListComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -159,6 +161,15 @@ export class ProductListComponent implements OnInit {
     }
     this.cartService.addToCart(product);
     this.toastService.success(`${product.name} added to cart!`);
+  }
+
+  toggleWishlist(product: Product, event: Event): void {
+    event.stopPropagation();
+    this.wishlistService.toggleWishlist(product);
+  }
+
+  isInWishlist(productId: string | undefined): boolean {
+    return this.wishlistService.isInWishlist(productId);
   }
 }
 

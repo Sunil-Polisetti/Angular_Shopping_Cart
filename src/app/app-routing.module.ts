@@ -8,6 +8,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'order-confirmation', component: OrderConfirmationComponent, canActivate: [AuthGuard] },
   { path: 'order-tracking', component: OrderTrackingComponent, canActivate: [AuthGuard] },
   { path: 'order-tracking/:orderId', component: OrderTrackingComponent, canActivate: [AuthGuard] },
+  { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
+  { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent }
 ];

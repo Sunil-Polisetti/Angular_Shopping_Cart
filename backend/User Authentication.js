@@ -75,4 +75,58 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Simple auth middleware (expects Bearer token)
+function authenticate(req, res, next) {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    req.userId = payload.userId;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+}
+
+// Update Profile (Name & Password)
+router.put('/update-profile', authenticate, async (req, res) => {
+  try {
+    const { name, currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (name) {
+      user.name = name;
+    }
+
+    if (newPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({ message: 'Current password is required to set a new password' });
+      }
+      const isPasswordValid = await bcryptjs.compare(currentPassword, user.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: 'Invalid current password' });
+      }
+      user.password = newPassword;
+    }
+
+    await user.save();
+
+    res.json({
+      message: 'Profile updated successfully',
+      user: { id: user._id, name: user.name, email: user.email }
+    });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ message: error.message || 'Failed to update profile' });
+  }
+});
+
 module.exports = router;

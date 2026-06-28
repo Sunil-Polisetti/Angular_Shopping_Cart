@@ -107,6 +107,14 @@
             <span *ngIf="!addedToCart">🛒 Add to Cart</span>
             <span *ngIf="addedToCart">✓ Added to Cart!</span>
           </button>
+          <button 
+            (click)="toggleWishlist()" 
+            class="btn btn-secondary btn-wishlist"
+            [class.active]="isInWishlist()"
+          >
+            <span *ngIf="!isInWishlist()">❤ Add to Wishlist</span>
+            <span *ngIf="isInWishlist()">❤ In Wishlist</span>
+          </button>
           <button (click)="goToCart()" class="btn btn-secondary">View Cart</button>
         </div>
 

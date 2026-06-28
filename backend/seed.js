@@ -355,8 +355,95 @@ const sampleProducts = [
   stock: 130,
   discount: 45,
   seller: 'Book Store'
-}
+},
 
+  // ================= HOME & KITCHEN =================
+  {
+    name: 'Instant Pot Duo 7-in-1',
+    price: 8999,
+    originalPrice: 11999,
+    description: 'Electric pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker and warmer',
+    category: 'Home & Kitchen',
+    image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.7,
+    reviewCount: 1500,
+    stock: 50,
+    discount: 25,
+    seller: 'Instant Brand'
+  },
+  {
+    name: 'Philips Air Fryer XL',
+    price: 12999,
+    originalPrice: 16999,
+    description: 'Healthy frying with Rapid Air technology, digital touch screen, 1.2kg capacity',
+    category: 'Home & Kitchen',
+    image: 'https://images.unsplash.com/photo-1621972750749-0fbb1abb7736?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1621972750749-0fbb1abb7736?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.6,
+    reviewCount: 950,
+    stock: 40,
+    discount: 23,
+    seller: 'Philips India'
+  },
+  {
+    name: 'Kent Grand Water Purifier',
+    price: 14999,
+    originalPrice: 18999,
+    description: 'Wall-mountable RO + UV + UF + TDS controller water purifier with 8L storage tank',
+    category: 'Home & Kitchen',
+    image: 'https://images.unsplash.com/photo-1585837575652-267c0ee1229b?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1585837575652-267c0ee1229b?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.4,
+    reviewCount: 1100,
+    stock: 35,
+    discount: 21,
+    seller: 'Kent Store'
+  },
+
+  // ================= FITNESS =================
+  {
+    name: 'Flexibell Adjustable Dumbbells',
+    price: 15999,
+    originalPrice: 19999,
+    description: 'Pair of smart adjustable dumbbells, selector dials from 2.5kg to 24kg',
+    category: 'Fitness',
+    image: 'https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.8,
+    reviewCount: 340,
+    stock: 20,
+    discount: 20,
+    seller: 'FitGear Store'
+  },
+  {
+    name: 'Lifelong FitPro Treadmill',
+    price: 18999,
+    originalPrice: 29999,
+    description: 'Foldable motorized treadmill for home use, 2.5 HP peak motor, 12 preset workouts',
+    category: 'Fitness',
+    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.5,
+    reviewCount: 880,
+    stock: 15,
+    discount: 36,
+    seller: 'Lifelong Fitness'
+  },
+  {
+    name: 'Decathlon Yoga Mat',
+    price: 999,
+    originalPrice: 1499,
+    description: 'Non-slip 8mm thick yoga and pilates mat with carrying strap',
+    category: 'Fitness',
+    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=500&q=80',
+    images: ['https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=500&q=80'],
+    rating: 4.3,
+    reviewCount: 1200,
+    stock: 150,
+    discount: 33,
+    seller: 'Decathlon Store'
+  }
 ];
 
 async function seedProducts() {

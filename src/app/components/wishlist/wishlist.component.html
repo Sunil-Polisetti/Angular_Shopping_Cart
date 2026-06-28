@@ -1,0 +1,58 @@
+<div class="wishlist-page">
+  <div class="wishlist-header animate-fade-in">
+    <h1>❤️ My Wishlist</h1>
+    <p>{{ wishlistItems.length }} items saved</p>
+  </div>
+
+  <!-- Empty Wishlist State -->
+  <div *ngIf="wishlistItems.length === 0" class="empty-wishlist animate-fade-in">
+    <div class="empty-icon">❤️</div>
+    <h2>Your Wishlist is empty</h2>
+    <p>Tap the heart icon on any product to save it here for later.</p>
+    <button (click)="goHome()" class="btn btn-primary">Discover Products</button>
+  </div>
+
+  <!-- Wishlist Grid -->
+  <div *ngIf="wishlistItems.length > 0" class="wishlist-grid animate-fade-in">
+    <div *ngFor="let item of wishlistItems" class="wishlist-card">
+      <!-- Remove Button -->
+      <button class="remove-btn" (click)="removeFromWishlist(item._id)" title="Remove from wishlist">
+        ✕
+      </button>
+
+      <!-- Image -->
+      <div class="image-wrapper" (click)="viewProductDetails(item._id)">
+        <img [src]="item.image" [alt]="item.name" />
+      </div>
+
+      <!-- Info -->
+      <div class="card-info">
+        <span class="category">{{ item.category }}</span>
+        <h3 (click)="viewProductDetails(item._id)">{{ item.name }}</h3>
+        
+        <div class="price-section">
+          <span class="price">₹{{ item.price.toLocaleString('en-IN') }}</span>
+          <span *ngIf="item.originalPrice" class="original-price">
+            ₹{{ item.originalPrice.toLocaleString('en-IN') }}
+          </span>
+        </div>
+
+        <div class="stock-status">
+          <span [class.in-stock]="item.stock && item.stock > 0" [class.out-of-stock]="!item.stock || item.stock <= 0">
+            {{ (item.stock && item.stock > 0) ? 'In Stock' : 'Out of Stock' }}
+          </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-actions">
+          <button 
+            (click)="addToCart(item)" 
+            [disabled]="!item.stock || item.stock <= 0" 
+            class="btn btn-primary btn-add">
+            🛒 Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

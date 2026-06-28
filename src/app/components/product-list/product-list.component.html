@@ -84,6 +84,14 @@
             -{{ getDiscount(product) }}%
           </div>
 
+          <!-- Wishlist Button -->
+          <button 
+            class="wishlist-btn" 
+            [class.active]="isInWishlist(product._id)" 
+            (click)="toggleWishlist(product, $event)">
+            ❤
+          </button>
+
           <!-- Product Image -->
           <div class="product-image">
             <img [src]="product.image" [alt]="product.name" />

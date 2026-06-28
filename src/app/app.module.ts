@@ -16,6 +16,8 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 import { OrderTrackingComponent } from './components/order-tracking/order-tracking.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
@@ -33,7 +35,9 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     ProductDetailsComponent,
     OrderConfirmationComponent,
     OrderTrackingComponent,
-    ToastComponent
+    ToastComponent,
+    WishlistComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,

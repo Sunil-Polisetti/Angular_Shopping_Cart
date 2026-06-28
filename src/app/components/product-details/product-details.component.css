@@ -528,3 +528,19 @@
     aspect-ratio: 1.2;
   }
 }
+
+.btn-wishlist {
+  flex: 1;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-wishlist.active {
+  background: rgba(255, 75, 130, 0.15) !important;
+  border-color: rgba(255, 75, 130, 0.3) !important;
+  color: #ff4b82 !important;
+  text-shadow: 0 0 8px rgba(255, 75, 130, 0.4);
+}
