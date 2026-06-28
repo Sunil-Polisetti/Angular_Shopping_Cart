@@ -3,35 +3,33 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  z-index: 2000;
-  background-color: transparent;
+  height: 4px;
+  z-index: 9999;
+  background-color: rgba(9, 9, 14, 0.2);
+  backdrop-filter: blur(2px);
   overflow: hidden;
 }
 
 .loading-progress {
   height: 100%;
-  background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--primary) 100%);
   background-size: 200% 100%;
   width: 100%;
-  animation: progress 2s ease-in-out infinite;
-  box-shadow: 0 0 10px 0 #1e40af;
+  animation: progress 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  box-shadow: 0 0 10px var(--primary), 0 0 5px var(--secondary);
 }
 
 @keyframes progress {
   0% {
     transform: translateX(-100%);
   }
-  50% {
-    transform: translateX(100%);
-  }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 }
 
 @media (max-width: 768px) {
   .loading-bar {
-    height: 2px;
+    height: 3px;
   }
 }
