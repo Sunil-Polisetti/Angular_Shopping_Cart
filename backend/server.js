@@ -8,8 +8,8 @@ const app = express();
 /* ================= MIDDLEWARE ================= */
 app.use(
   cors({
-    origin: "https://angular-shopping-cart-taupe.vercel.app/",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "https://angular-shopping-cart-taupe.vercel.app",
+    credentials: true,
   }),
 );
 
