@@ -162,7 +162,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     };
 
     const items = this.cartItems.map(item => ({
-      product: item._id, // Map _id to product for MongoDB ref
+      _id: item._id,
       productName: item.name,
       quantity: item.quantity,
       price: item.price,
