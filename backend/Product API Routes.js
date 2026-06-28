@@ -1,5 +1,5 @@
 const express = require('express');
-const Product = require('D:/project/angular-shopping-cart/backend/ProductSchema.js');
+const Product = require('./ProductSchema');
 
 const router = express.Router();
 
