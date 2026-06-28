@@ -69,10 +69,9 @@ export class OrderTrackingComponent implements OnInit {
 
     const add = (order: any) => {
       if (!order) return;
-      order._id = order._id || order.orderNumber || '';
-      const id = order._id;
-      if (!id || seen.has(id)) return;
-      seen.add(id);
+      const key = order.orderNumber || order._id || '';
+      if (!key || seen.has(key)) return;
+      seen.add(key);
       merged.push(order);
     };
 
