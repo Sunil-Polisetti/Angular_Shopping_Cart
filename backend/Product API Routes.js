@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch products" });
   }
 });
-6;
 
 // <-- add this part -->
 router.get("/:id", async (req, res) => {
